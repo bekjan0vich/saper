@@ -44,7 +44,7 @@ class ModernSaper:
         tk.Label(frame, text="[ TERMINAL MINESWEEPER ]", font=("Courier", 35, "bold"),
                  fg="#00FF00", bg="#001a00").pack(pady=30)
 
-        # START баскычы: Аны чакырганда ask_nickname_step иштейт
+    
         tk.Button(frame, text="[ START GAME ]", font=("Courier", 22, "bold"),
                   fg="#00FF00", bg="#003300", activebackground="#00FF00", activeforeground="black",
                   width=20, relief="flat", command=self.ask_nickname_step).pack(pady=10)
@@ -52,15 +52,15 @@ class ModernSaper:
         tk.Button(frame, text="[ EXIT ]", font=("Courier", 18), fg="red", bg="#001a00",
                   relief="flat", command=self.root.quit).pack(pady=20)
 
-    # Жаңы кошулуучу логика:
+    
     def ask_nickname_step(self):
-        # Эгер мурун ат жазылбаса (б.а. демейки "Player" болсо) гана сурайт
+        
         if self.nickname == "Player":
             name = simpledialog.askstring("Nickname", "Enter your nickname:")
             if name:
                 self.nickname = name
         
-        # Анан дароо деңгээлдерди көрсөтөбүз
+        
         self.show_difficulty_levels()
 
         main = tk.Frame(self.root, bg="#001a00")
@@ -92,9 +92,7 @@ class ModernSaper:
         self.create_ui()
         self.update_timer()
 
-    # ---------------- UI (Авто-ресайз кошулду) ----------------
     def create_ui(self):
-        # Башкы маалымат панели
         header = tk.Frame(self.root, bg="#001a00")
         header.pack(pady=20)
         self.mine_label = tk.Label(header, text=f"MINES: {self.MINES}", fg="#FFCC00", bg="#001a00",
@@ -107,19 +105,18 @@ class ModernSaper:
         tk.Button(header, text="[ MENU ]", fg="#00FF00", bg="#001a00", font=("Courier", 14), relief="flat",
                   command=self.menu_screen).pack(side="left", padx=20)
 
-        # Клеткалар жайгашкан аянт
-        # Фонду кара түскө өзгөртөбүз, ошондо баскычтардын ортосундагы сызыктар көрүнөт
+       
         grid = tk.Frame(self.root, bg="#000000", padx=2, pady=2)
         grid.pack()
 
-        # Динамикалык өлчөм
+      
         btn_w = 2 if self.SIZE > 20 else 3
         font_size = 10 if self.SIZE > 20 else 14
 
         for x in range(self.SIZE):
             row = []
             for y in range(self.SIZE):
-                # relief="raised" баскычтарга көлөкө берип, аларды айырмалайт
+               
                 btn = tk.Button(grid,
                                 width=btn_w,
                                 height=1,
@@ -131,7 +128,6 @@ class ModernSaper:
                 btn.bind("<Button-1>", lambda e, x=x, y=y: self.left_click(x, y))
                 btn.bind("<Button-3>", lambda e, x=x, y=y: self.right_click(x, y))
 
-                # padx=1, pady=1 клеткалардын ортосунда 1 пикселдик аралык калтырат
                 btn.grid(row=x, column=y, padx=1, pady=1)
                 row.append(btn)
             self.buttons.append(row)
