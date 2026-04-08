@@ -1,0 +1,323 @@
+import customtkinter as ctk
+from tkinter import messagebox, simpledialog
+import random
+import time
+import os
+
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("green")
+
+
+class ModernSaper:
+
+    def __init__(self, root):
+
+        self.root = root
+        self.root.title("Modern Minesweeper")
+        self.root.geometry("900x700")
+
+        self.nickname = "Player"
+        self.timer_running = False
+        self.start_time = 0
+        self.elapsed_time = 0
+        self.first_click = True
+
+        # 🎨 ТҮСТӨР КОШУЛДУ
+        self.colors = {
+            1: "blue",
+            2: "green",
+            3: "red",
+            4: "purple",
+            5: "maroon",
+            6: "turquoise",
+            7: "black",
+            8: "gray"
+        }
+
+        self.menu_screen()
+
+    # ---------------- MENU ----------------
+
+    def menu_screen(self):
+
+        for w in self.root.winfo_children():
+            w.destroy()
+
+        frame = ctk.CTkFrame(self.root, corner_radius=15)
+        frame.pack(expand=True)
+
+        title = ctk.CTkLabel(frame, text="MINESWEEPER",
+                             font=("Arial", 40, "bold"))
+        title.pack(pady=30)
+
+        btn = ctk.CTkButton(frame, text="START GAME",
+                            command=self.ask_nickname)
+        btn.pack(pady=10)
+
+        exit_btn = ctk.CTkButton(frame, text="EXIT",
+                                 fg_color="red",
+                                 command=self.root.quit)
+        exit_btn.pack(pady=10)
+
+    # ---------------- NICKNAME ----------------
+
+    def ask_nickname(self):
+
+        name = simpledialog.askstring("Nickname", "Enter your nickname:")
+        if name:
+            self.nickname = name
+
+        self.show_levels()
+
+    # ---------------- LEVELS ----------------
+
+    def show_levels(self):
+
+        for w in self.root.winfo_children():
+            w.destroy()
+
+        frame = ctk.CTkFrame(self.root)
+        frame.pack(expand=True)
+
+        ctk.CTkLabel(frame, text=f"Player: {self.nickname}",
+                     font=("Arial", 20)).pack(pady=20)
+
+        ctk.CTkButton(frame, text="EASY",
+                      command=lambda: self.start_game(8, 10)).pack(pady=10)
+
+        ctk.CTkButton(frame, text="MEDIUM",
+                      command=lambda: self.start_game(16, 40)).pack(pady=10)
+
+        ctk.CTkButton(frame, text="HARD",
+                      command=lambda: self.start_game(20, 80)).pack(pady=10)
+
+        ctk.CTkButton(frame, text="RECORDS",
+                      command=self.show_records).pack(pady=10)
+
+        ctk.CTkButton(frame, text="BACK",
+                      command=self.menu_screen).pack(pady=10)
+
+    # ---------------- GAME ----------------
+
+    def start_game(self, size, mines):
+
+        for w in self.root.winfo_children():
+            w.destroy()
+
+        self.SIZE = size
+        self.MINES = mines
+
+        self.board = [[0]*size for _ in range(size)]
+        self.mines = set()
+        self.buttons = []
+        self.revealed = set()
+        self.flags = set()
+
+        self.first_click = True
+
+        self.timer_running = True
+        self.start_time = time.time()
+
+        self.create_ui()
+        self.update_timer()
+
+    # ---------------- UI ----------------
+
+    def create_ui(self):
+
+        top = ctk.CTkFrame(self.root)
+        top.pack(pady=10)
+
+        self.timer_label = ctk.CTkLabel(top, text="Time: 0")
+        self.timer_label.pack(side="left", padx=20)
+
+        ctk.CTkLabel(top, text=f"Player: {self.nickname}").pack(side="left", padx=20)
+
+        ctk.CTkButton(top, text="MENU",
+                      command=self.menu_screen).pack(side="left", padx=20)
+
+        grid = ctk.CTkFrame(self.root)
+        grid.pack()
+
+        for x in range(self.SIZE):
+
+            row = []
+
+            for y in range(self.SIZE):
+
+                btn = ctk.CTkButton(grid,
+                                    width=30,
+                                    height=30,
+                                    text="")
+
+                btn.grid(row=x, column=y, padx=2, pady=2)
+
+                btn.bind("<Button-1>", lambda e, x=x, y=y: self.left_click(x, y))
+                btn.bind("<Button-3>", lambda e, x=x, y=y: self.right_click(x, y))
+
+                row.append(btn)
+
+            self.buttons.append(row)
+
+    # ---------------- TIMER ----------------
+
+    def update_timer(self):
+         if self.timer_running:
+            self.elapsed_time = int(time.time() - self.start_time)
+            self.timer_label.configure(text=f"Time: {self.elapsed_time}")
+            self.root.after(1000, self.update_timer)
+
+    # ---------------- MINES ----------------
+
+    def create_mines(self, safe_x, safe_y):
+
+        while len(self.mines) < self.MINES:
+
+            x = random.randint(0, self.SIZE-1)
+            y = random.randint(0, self.SIZE-1)
+
+            if (x, y) != (safe_x, safe_y):
+                self.mines.add((x, y))
+
+        for x, y in self.mines:
+
+            self.board[x][y] = -1
+
+            for dx in [-1,0,1]:
+                for dy in [-1,0,1]:
+
+                    nx = x+dx
+                    ny = y+dy
+
+                    if 0 <= nx < self.SIZE and 0 <= ny < self.SIZE:
+                        if self.board[nx][ny] != -1:
+                            self.board[nx][ny] += 1
+
+    # ---------------- CLICK ----------------
+
+    def left_click(self, x, y):
+
+        if (x, y) in self.flags:
+            return
+
+        if self.first_click:
+            self.create_mines(x, y)
+            self.first_click = False
+
+        if (x, y) in self.mines:
+
+            self.timer_running = False
+            self.show_all_mines()
+            messagebox.showinfo("Game Over", "💥 BOOM!")
+            self.menu_screen()
+            return
+
+        self.reveal(x, y)
+        self.check_win()
+
+    def right_click(self, x, y):
+
+        if (x, y) in self.revealed:
+            return
+
+        if (x, y) in self.flags:
+            self.flags.remove((x, y))
+            self.buttons[x][y].configure(text="")
+        else:
+            self.flags.add((x, y))
+            self.buttons[x][y].configure(text="🚩")
+
+    # ---------------- REVEAL (ЖАҢЫ) ----------------
+
+    def reveal(self, x, y):
+
+        if (x, y) in self.revealed:
+            return
+
+        self.revealed.add((x, y))
+
+        btn = self.buttons[x][y]
+        number = self.board[x][y]
+
+        # 🔒 disable
+        btn.configure(state="disabled")
+
+        if number > 0:
+            color = self.colors.get(number, "white")
+            btn.configure(
+                text=str(number),
+                text_color=color
+            )
+        else:
+            btn.configure(text="")
+
+            for dx in [-1,0,1]:
+                for dy in [-1,0,1]:
+                    nx = x+dx
+                    ny = y+dy
+                    if 0 <= nx < self.SIZE and 0 <= ny < self.SIZE:
+                        self.reveal(nx, ny)
+
+    # ---------------- RECORDS ----------------
+
+    def save_record(self):
+
+        file = "records.txt"
+        records = []
+
+        if os.path.exists(file):
+
+            with open(file) as f:
+                for line in f:
+                    name, score = line.strip().split(",")
+                    records.append((name, int(score)))
+
+        records.append((self.nickname, self.elapsed_time))
+        records = sorted(records, key=lambda x: x[1])[:5]
+
+        with open(file, "w") as f:
+            for r in records:
+                f.write(f"{r[0]},{r[1]}\n")
+
+    def show_records(self):
+
+        file = "records.txt"
+
+        if not os.path.exists(file):
+            messagebox.showinfo("Records", "No records yet")
+            return
+
+        text = ""
+
+        with open(file) as f:
+            for i, line in enumerate(f, 1):
+                name, score = line.strip().split(",")
+                text += f"{i}. {name} - {score}s\n"
+
+        messagebox.showinfo("TOP 5", text)
+
+    # ---------------- WIN ----------------
+
+    def check_win(self):
+
+        if len(self.revealed) == self.SIZE*self.SIZE - self.MINES:
+
+            self.timer_running = False
+            self.save_record()
+
+            messagebox.showinfo("WIN", f"{self.nickname} выиграл!\nTime: {self.elapsed_time}")
+
+            self.menu_screen()
+
+    # ---------------- SHOW MINES ----------------
+
+    def show_all_mines(self):
+
+        for x, y in self.mines:
+            self.buttons[x][y].configure(text="💣")
+
+
+if __name__ == "__main__":
+    root = ctk.CTk()
+    app = ModernSaper(root)
+    root.mainloop(
