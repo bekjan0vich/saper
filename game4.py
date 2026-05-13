@@ -29,6 +29,10 @@ class Minesweeper:
         self.master.geometry("1000x700")
         self.master.resizable(False, False)
 
+        # Тилдер
+        self.current_lang = "ky"  # ky, ru, en
+        self.translations = self.load_translations()
+
         # Оюн параметрлери
         self.rows = 9
         self.cols = 9
@@ -52,6 +56,173 @@ class Minesweeper:
 
         self.show_main_menu()
 
+    def load_translations(self):
+        return {
+            "ky": {
+                "title": "САПЕР",
+                "play": "ОЙНО",
+                "setting": "ОЮН ПАРАМЕТРЛЕРИ",
+                "quit": "ЧЫГУУ",
+                "game_over": "ОЮН БҮТТҮ!",
+                "game_over_msg": "КЕЙИНКИ ЖОЛУ БАКЫТЫҢЫЗДЫ СЫНАП КӨРҮҢҮЗ!",
+                "you_win": "СИЗ ЖЕНИҢИЗ!",
+                "win_msg": "КУТТУКТАЙМЫН {}! 🎉\nУбакыт: {}",
+                "settings": "ОЮН ПАРАМЕТРЛЕРИ",
+                "high_scores": "ҮЗДҮК НАТЫЙЖЕЛЕР",
+                "player_name": "ОЮНЧУНУН АТЫ:",
+                "difficulty": "КЫЙЫНДЫК:",
+                "beginner": "ЖАҢЫ БАШТООЧУ",
+                "easy": "ЖЕНИЛ",
+                "normal": "ОРТО",
+                "hard": "КЫЙЫН",
+                "expert": "ЭКСПЕРТ",
+                "custom": "ӨЗГӨРТМӨ",
+                "custom_params": "ӨЗГӨРТМӨ (катар/тилке/мина):",
+                "rows": "катар",
+                "cols": "тилке",
+                "mines": "мина",
+                "save": "САКТОО",
+                "back": "АРТКА",
+                "saved": "САКТАЛДЫ",
+                "saved_msg": "Оюн параметрлери ийгиликтүү сакталды!",
+                "rank": "Орун",
+                "name": "Аты",
+                "time": "Убакыт",
+                "close": "ЖАБУУ",
+                "export": "ЭКСПОРТ",
+                "export_title": "Экспорттоо",
+                "format": "Формат:",
+                "type": "Түрү:",
+                "standard": "Стандарттуу",
+                "detailed": "Толук",
+                "summary": "Кыскача",
+                "avg_time": "Орт. убакыт:",
+                "win_percent": "Жеңүү %:",
+                "flags_placed": "Желектер:",
+                "level": "Денгээл",
+                "analytics": "Аналитика",
+                "preview": "Көрүү",
+                "download": "Жүктөө",
+                "reset_stats": "Статистиканы баштапкылоо",
+                "add_custom": "Кошуу",
+                "remove_custom": "Өчүрүү",
+                "post": "POST",
+                "usb": "USB",
+                "gnd": "GND"
+            },
+            "ru": {
+                "title": "САПЁР",
+                "play": "ИГРАТЬ",
+                "setting": "НАСТРОЙКИ",
+                "quit": "ВЫХОД",
+                "game_over": "ИГРА ОКОНЧЕНА!",
+                "game_over_msg": "НЕ ТЕРЯЙТЕ НАДЕЖДУ!",
+                "you_win": "ВЫ ПОБЕДИЛИ!",
+                "win_msg": "ПОЗДРАВЛЯЕМ {}! 🎉\nВремя: {}",
+                "settings": "НАСТРОЙКИ",
+                "high_scores": "ЛУЧШИЕ РЕЗУЛЬТАТЫ",
+                "player_name": "ИМЯ ИГРОКА:",
+                "difficulty": "СЛОЖНОСТЬ:",
+                "beginner": "НАЧИНАЮЩИЙ",
+                "easy": "ЛЁГКИЙ",
+                "normal": "СРЕДНИЙ",
+                "hard": "СЛОЖНЫЙ",
+                "expert": "ЭКСПЕРТ",
+                "custom": "ПОЛЬЗОВАТЕЛЬСКАЯ",
+                "custom_params": "Пользовательские (строки/колонки/мины):",
+                "rows": "строки",
+                "cols": "колонки",
+                "mines": "мины",
+                "save": "СОХРАНИТЬ",
+                "back": "НАЗАД",
+                "saved": "СОХРАНЕНО",
+                "saved_msg": "Настройки успешно сохранены!",
+                "rank": "Место",
+                "name": "Имя",
+                "time": "Время",
+                "close": "ЗАКРЫТЬ",
+                "export": "ЭКСПОРТ",
+                "export_title": "Экспорт данных",
+                "format": "Формат:",
+                "type": "Тип:",
+                "standard": "Стандартный",
+                "detailed": "Детальный",
+                "summary": "Краткий",
+                "avg_time": "Ср. время:",
+                "win_percent": "Побед %:",
+                "flags_placed": "Флажков:",
+                "level": "Уровень",
+                "analytics": "Аналитика",
+                "preview": "Просмотр",
+                "download": "Скачать",
+                "reset_stats": "Сбросить статистику",
+                "add_custom": "Добавить",
+                "remove_custom": "Удалить",
+                "post": "POST",
+                "usb": "USB",
+                "gnd": "GND"
+            },
+            "en": {
+                "title": "SAPPER",
+                "play": "PLAY",
+                "setting": "SETTINGS",
+                "quit": "QUIT",
+                "game_over": "GAME OVER!",
+                "game_over_msg": "DON'T LOSE HOPE!",
+                "you_win": "YOU WIN!",
+                "win_msg": "Congratulations {}! 🎉\nTime: {}",
+                "settings": "SETTINGS",
+                "high_scores": "HIGH SCORES",
+                "player_name": "PLAYER NAME:",
+                "difficulty": "DIFFICULTY:",
+                "beginner": "BEGINNER",
+                "easy": "EASY",
+                "normal": "NORMAL",
+                "hard": "HARD",
+                "expert": "EXPERT",
+                "custom": "CUSTOM",
+                "custom_params": "Custom (rows/cols/mines):",
+                "rows": "rows",
+                "cols": "cols",
+                "mines": "mines",
+                "save": "SAVE",
+                "back": "BACK",
+                "saved": "SAVED",
+                "saved_msg": "Settings saved successfully!",
+                "rank": "Rank",
+                "name": "Name",
+                "time": "Time",
+                "close": "CLOSE",
+                "export": "EXPORT",
+                "export_title": "Export Data",
+                "format": "Format:",
+                "type": "Type:",
+                "standard": "Standard",
+                "detailed": "Detailed",
+                "summary": "Summary",
+                "avg_time": "Avg. Time:",
+                "win_percent": "Win %:",
+                "flags_placed": "Flags:",
+                "level": "Level",
+                "analytics": "Analytics",
+                "preview": "Preview",
+                "download": "Download",
+                "reset_stats": "Reset Stats",
+                "add_custom": "Add",
+                "remove_custom": "Remove",
+                "post": "POST",
+                "usb": "USB",
+                "gnd": "GND"
+            }
+        }
+
+    def t(self, key):
+        return self.translations[self.current_lang].get(key, key)
+
+    def change_language(self, lang):
+        self.current_lang = lang
+        self.show_main_menu()
+
     def load_high_scores(self):
         try:
             with open("high_scores.json", "r") as f:
@@ -70,18 +241,29 @@ class Minesweeper:
     def show_main_menu(self):
         self.clear_window()
 
-        title = ctk.CTkLabel(self.master, text="SAPPER", font=("Arial", 64, "bold"), text_color="red")
-        title.pack(pady=80)
+        # Тил тандоо баскычтары
+        lang_frame = ctk.CTkFrame(self.master)
+        lang_frame.pack(pady=10)
 
-        play_btn = ctk.CTkButton(self.master, text="PLAY", width=250, height=60, font=("Arial", 24),
+        ctk.CTkButton(lang_frame, text="🇰🇬 Кыргызча", width=100,
+                      command=lambda: self.change_language("ky")).pack(side="left", padx=5)
+        ctk.CTkButton(lang_frame, text="🇷🇺 Русский", width=100,
+                      command=lambda: self.change_language("ru")).pack(side="left", padx=5)
+        ctk.CTkButton(lang_frame, text="🇬🇧 English", width=100,
+                      command=lambda: self.change_language("en")).pack(side="left", padx=5)
+
+        title = ctk.CTkLabel(self.master, text=self.t("title"), font=("Arial", 64, "bold"), text_color="red")
+        title.pack(pady=60)
+
+        play_btn = ctk.CTkButton(self.master, text=self.t("play"), width=250, height=60, font=("Arial", 24),
                                  command=self.start_game)
         play_btn.pack(pady=15)
 
-        setting_btn = ctk.CTkButton(self.master, text="SETTING", width=250, height=60, font=("Arial", 24),
+        setting_btn = ctk.CTkButton(self.master, text=self.t("setting"), width=250, height=60, font=("Arial", 24),
                                     command=self.show_settings)
         setting_btn.pack(pady=15)
 
-        out_btn = ctk.CTkButton(self.master, text="OUT", width=250, height=60, font=("Arial", 24),
+        out_btn = ctk.CTkButton(self.master, text=self.t("quit"), width=250, height=60, font=("Arial", 24),
                                 fg_color="red", command=self.master.quit)
         out_btn.pack(pady=15)
 
@@ -107,12 +289,20 @@ class Minesweeper:
     def show_game_screen(self):
         self.clear_window()
 
-        self.master.title(f"SAPER - level: {self.difficulty}")
+        # Тил тандоо (оюн ичинде да)
+        lang_frame = ctk.CTkFrame(self.master)
+        lang_frame.pack(pady=5)
+
+        ctk.CTkButton(lang_frame, text="🇰🇬", width=40, command=lambda: self.change_language("ky")).pack(side="left", padx=2)
+        ctk.CTkButton(lang_frame, text="🇷🇺", width=40, command=lambda: self.change_language("ru")).pack(side="left", padx=2)
+        ctk.CTkButton(lang_frame, text="🇬🇧", width=40, command=lambda: self.change_language("en")).pack(side="left", padx=2)
+
+        self.master.title(f"SAPER - {self.t('level')}: {self.t(self.difficulty)}")
 
         top_frame = ctk.CTkFrame(self.master)
         top_frame.pack(pady=10, fill="x")
 
-        level_label = ctk.CTkLabel(top_frame, text=f"SAPER    level: {self.difficulty}",
+        level_label = ctk.CTkLabel(top_frame, text=f"SAPER    {self.t('level')}: {self.t(self.difficulty)}",
                                    font=("Arial", 24, "bold"), text_color="red")
         level_label.pack(side="left", padx=20)
 
@@ -137,32 +327,60 @@ class Minesweeper:
         analytics_frame = ctk.CTkFrame(main_container, width=280)
         analytics_frame.pack(side="right", padx=20, pady=10, fill="both")
 
-        analytics_title = ctk.CTkLabel(analytics_frame, text="Analytics", font=("Arial", 24, "bold"))
+        analytics_title = ctk.CTkLabel(analytics_frame, text=self.t("analytics"), font=("Arial", 24, "bold"))
         analytics_title.pack(pady=15)
 
-        self.avg_time_label = ctk.CTkLabel(analytics_frame, text="Avg. Time:", font=("Arial", 16))
+        self.avg_time_label = ctk.CTkLabel(analytics_frame, text=self.t("avg_time"), font=("Arial", 16))
         self.avg_time_label.pack(pady=5)
         self.avg_time_value = ctk.CTkLabel(analytics_frame, text="0:00", font=("Arial", 20, "bold"))
         self.avg_time_value.pack(pady=5)
 
-        self.win_percent_label = ctk.CTkLabel(analytics_frame, text="Win%:", font=("Arial", 16))
+        self.win_percent_label = ctk.CTkLabel(analytics_frame, text=self.t("win_percent"), font=("Arial", 16))
         self.win_percent_label.pack(pady=5)
         self.win_percent_value = ctk.CTkLabel(analytics_frame, text="0%", font=("Arial", 20, "bold"),
                                               text_color="green")
         self.win_percent_value.pack(pady=5)
 
-        self.flags_label = ctk.CTkLabel(analytics_frame, text="Flags Placed:", font=("Arial", 16))
+        self.flags_label = ctk.CTkLabel(analytics_frame, text=self.t("flags_placed"), font=("Arial", 16))
         self.flags_label.pack(pady=5)
         self.flags_value = ctk.CTkLabel(analytics_frame, text="0", font=("Arial", 20, "bold"), text_color="yellow")
         self.flags_value.pack(pady=5)
 
-        export_btn = ctk.CTkButton(analytics_frame, text="Export", width=200, height=45,
+        export_btn = ctk.CTkButton(analytics_frame, text=self.t("export"), width=200, height=45,
                                    font=("Arial", 18), command=self.show_export_window)
         export_btn.pack(pady=30)
+
+        # POST/USB/GND баскычтары
+        post_frame = ctk.CTkFrame(analytics_frame)
+        post_frame.pack(pady=20)
+        ctk.CTkButton(post_frame, text=self.t("post"), width=80, fg_color="#333",
+                      command=self.reset_stats).pack(side="left", padx=5)
+        ctk.CTkButton(post_frame, text=self.t("usb"), width=80, fg_color="#333",
+                      command=self.add_custom_difficulty).pack(side="left", padx=5)
+        ctk.CTkButton(post_frame, text=self.t("gnd"), width=80, fg_color="#333",
+                      command=self.remove_last_custom).pack(side="left", padx=5)
 
         self.update_analytics()
         self.game_start_time = datetime.now()
         self.update_game_grid()
+
+    def reset_stats(self):
+        self.games_played = 0
+        self.games_won = 0
+        self.total_time = 0
+        self.update_analytics()
+        mb.showinfo("Stats", "Statistics reset successfully!")
+
+    def add_custom_difficulty(self):
+        # Кошумча кыйындык деңгээлин кошуу
+        self.difficulties.append(f"custom_{len(self.difficulties)}")
+        mb.showinfo("Custom", "New difficulty level added!")
+
+    def remove_last_custom(self):
+        # Акыркы кошулганды өчүрүү
+        if len(self.difficulties) > 6:
+            self.difficulties.pop()
+            mb.showinfo("Removed", "Last custom difficulty removed!")
 
     def update_analytics(self):
         if self.games_played > 0:
@@ -205,7 +423,7 @@ class Minesweeper:
                 for cc in range(self.cols):
                     if self.game.board[rr][cc] == -1:
                         self.buttons[rr][cc].configure(text="💣", fg_color="#8B0000")
-            mb.showinfo("GAME OVER", "DON'T LOSE HOPE!")
+            mb.showinfo(self.t("game_over"), self.t("game_over_msg"))
             self.games_played += 1
             self.update_analytics()
             self.show_main_menu()
@@ -230,7 +448,7 @@ class Minesweeper:
             self.high_scores = self.high_scores[:6]
             self.save_high_scores()
 
-            mb.showinfo("YOU WIN!", f"Congratulations {self.player_name}! 🎉\nTime: {time_str}")
+            mb.showinfo(self.t("you_win"), self.t("win_msg").format(self.player_name, time_str))
             self.update_analytics()
             self.show_main_menu()
 
@@ -259,48 +477,57 @@ class Minesweeper:
     def show_settings(self):
         self.clear_window()
 
-        ctk.CTkLabel(self.master, text="Settings", font=("Arial", 36, "bold")).pack(pady=20)
+        # Тил тандоо
+        lang_frame = ctk.CTkFrame(self.master)
+        lang_frame.pack(pady=10)
+        ctk.CTkButton(lang_frame, text="🇰🇬", width=40, command=lambda: self.change_language("ky")).pack(side="left", padx=2)
+        ctk.CTkButton(lang_frame, text="🇷🇺", width=40, command=lambda: self.change_language("ru")).pack(side="left", padx=2)
+        ctk.CTkButton(lang_frame, text="🇬🇧", width=40, command=lambda: self.change_language("en")).pack(side="left", padx=2)
 
-        hs_btn = ctk.CTkButton(self.master, text="High Scores", width=200, height=40,
+        ctk.CTkLabel(self.master, text=self.t("settings"), font=("Arial", 36, "bold")).pack(pady=20)
+
+        hs_btn = ctk.CTkButton(self.master, text=self.t("high_scores"), width=200, height=40,
                                font=("Arial", 18), command=self.show_high_scores)
         hs_btn.pack(pady=10)
 
-        ctk.CTkLabel(self.master, text="Player Name:", font=("Arial", 16)).pack(pady=10)
+        ctk.CTkLabel(self.master, text=self.t("player_name"), font=("Arial", 16)).pack(pady=10)
         self.name_entry = ctk.CTkEntry(self.master, width=250, placeholder_text="Enter name")
         self.name_entry.insert(0, self.player_name)
         self.name_entry.pack(pady=5)
 
-        ctk.CTkLabel(self.master, text="Difficulty:", font=("Arial", 16)).pack(pady=10)
+        ctk.CTkLabel(self.master, text=self.t("difficulty"), font=("Arial", 16)).pack(pady=10)
         self.difficulty_var = ctk.StringVar(value=self.difficulty)
         difficulty_frame = ctk.CTkFrame(self.master)
         difficulty_frame.pack(pady=5)
 
         levels = ["beginner", "easy", "normal", "hard", "expert", "custom"]
-        for level in levels:
-            rb = ctk.CTkRadioButton(difficulty_frame, text=level, variable=self.difficulty_var, value=level)
+        level_names = [self.t("beginner"), self.t("easy"), self.t("normal"),
+                       self.t("hard"), self.t("expert"), self.t("custom")]
+        for level, name in zip(levels, level_names):
+            rb = ctk.CTkRadioButton(difficulty_frame, text=name, variable=self.difficulty_var, value=level)
             rb.pack(side="left", padx=8)
 
         custom_frame = ctk.CTkFrame(self.master)
         custom_frame.pack(pady=10)
 
-        ctk.CTkLabel(custom_frame, text="Custom (rows/cols/mines):", font=("Arial", 14)).grid(row=0, column=0, padx=5)
-        self.custom_rows_entry = ctk.CTkEntry(custom_frame, width=60, placeholder_text="rows")
+        ctk.CTkLabel(custom_frame, text=self.t("custom_params"), font=("Arial", 14)).grid(row=0, column=0, padx=5)
+        self.custom_rows_entry = ctk.CTkEntry(custom_frame, width=60, placeholder_text=self.t("rows"))
         self.custom_rows_entry.insert(0, str(self.custom_rows))
         self.custom_rows_entry.grid(row=0, column=1, padx=5)
 
-        self.custom_cols_entry = ctk.CTkEntry(custom_frame, width=60, placeholder_text="cols")
+        self.custom_cols_entry = ctk.CTkEntry(custom_frame, width=60, placeholder_text=self.t("cols"))
         self.custom_cols_entry.insert(0, str(self.custom_cols))
         self.custom_cols_entry.grid(row=0, column=2, padx=5)
 
-        self.custom_mines_entry = ctk.CTkEntry(custom_frame, width=60, placeholder_text="mines")
+        self.custom_mines_entry = ctk.CTkEntry(custom_frame, width=60, placeholder_text=self.t("mines"))
         self.custom_mines_entry.insert(0, str(self.custom_mines))
         self.custom_mines_entry.grid(row=0, column=3, padx=5)
 
-        save_btn = ctk.CTkButton(self.master, text="Save", width=200, height=45,
+        save_btn = ctk.CTkButton(self.master, text=self.t("save"), width=200, height=45,
                                  font=("Arial", 18), fg_color="green", command=self.save_settings)
         save_btn.pack(pady=20)
 
-        back_btn = ctk.CTkButton(self.master, text="Back", width=200, height=40,
+        back_btn = ctk.CTkButton(self.master, text=self.t("back"), width=200, height=40,
                                  command=self.show_main_menu)
         back_btn.pack(pady=10)
 
@@ -315,50 +542,46 @@ class Minesweeper:
         except:
             pass
 
-        mb.showinfo("Saved", "Settings saved successfully!")
+        mb.showinfo(self.t("saved"), self.t("saved_msg"))
         self.show_main_menu()
 
     def show_high_scores(self):
         hs_window = ctk.CTkToplevel(self.master)
-        hs_window.title("High Scores")
+        hs_window.title(self.t("high_scores"))
         hs_window.geometry("500x400")
         hs_window.resizable(False, False)
 
-        ctk.CTkLabel(hs_window, text="High Scores", font=("Arial", 28, "bold")).pack(pady=20)
+        ctk.CTkLabel(hs_window, text=self.t("high_scores"), font=("Arial", 28, "bold")).pack(pady=20)
 
         frame = ctk.CTkFrame(hs_window)
         frame.pack(pady=10, padx=20, fill="both", expand=True)
 
-        ctk.CTkLabel(frame, text="Rank", width=80, font=("Arial", 16, "bold")).grid(row=0, column=0, padx=10, pady=5)
-        ctk.CTkLabel(frame, text="Name", width=150, font=("Arial", 16, "bold")).grid(row=0, column=1, padx=10, pady=5)
-        ctk.CTkLabel(frame, text="Time", width=100, font=("Arial", 16, "bold")).grid(row=0, column=2, padx=10, pady=5)
+        ctk.CTkLabel(frame, text=self.t("rank"), width=80, font=("Arial", 16, "bold")).grid(row=0, column=0, padx=10, pady=5)
+        ctk.CTkLabel(frame, text=self.t("name"), width=150, font=("Arial", 16, "bold")).grid(row=0, column=1, padx=10, pady=5)
+        ctk.CTkLabel(frame, text=self.t("time"), width=100, font=("Arial", 16, "bold")).grid(row=0, column=2, padx=10, pady=5)
 
         for i, score in enumerate(self.high_scores[:6]):
-            ctk.CTkLabel(frame, text=f"{i + 1}", width=80, font=("Arial", 14)).grid(row=i + 1, column=0, padx=10,
-                                                                                    pady=3)
-            ctk.CTkLabel(frame, text=score["name"], width=150, font=("Arial", 14)).grid(row=i + 1, column=1, padx=10,
-                                                                                        pady=3)
-            ctk.CTkLabel(frame, text=score["time"], width=100, font=("Arial", 14)).grid(row=i + 1, column=2, padx=10,
-                                                                                        pady=3)
+            ctk.CTkLabel(frame, text=f"{i + 1}", width=80, font=("Arial", 14)).grid(row=i + 1, column=0, padx=10, pady=3)
+            ctk.CTkLabel(frame, text=score["name"], width=150, font=("Arial", 14)).grid(row=i + 1, column=1, padx=10, pady=3)
+            ctk.CTkLabel(frame, text=score["time"], width=100, font=("Arial", 14)).grid(row=i + 1, column=2, padx=10, pady=3)
 
         for i in range(len(self.high_scores), 6):
-            ctk.CTkLabel(frame, text=f"{i + 1}", width=80, font=("Arial", 14)).grid(row=i + 1, column=0, padx=10,
-                                                                                    pady=3)
+            ctk.CTkLabel(frame, text=f"{i + 1}", width=80, font=("Arial", 14)).grid(row=i + 1, column=0, padx=10, pady=3)
             ctk.CTkLabel(frame, text="???", width=150, font=("Arial", 14)).grid(row=i + 1, column=1, padx=10, pady=3)
             ctk.CTkLabel(frame, text="0.00", width=100, font=("Arial", 14)).grid(row=i + 1, column=2, padx=10, pady=3)
 
-        close_btn = ctk.CTkButton(hs_window, text="Close", width=150, command=hs_window.destroy)
+        close_btn = ctk.CTkButton(hs_window, text=self.t("close"), width=150, command=hs_window.destroy)
         close_btn.pack(pady=20)
 
     def show_export_window(self):
         export_window = ctk.CTkToplevel(self.master)
-        export_window.title("Export")
+        export_window.title(self.t("export_title"))
         export_window.geometry("500x600")
         export_window.resizable(False, False)
 
-        ctk.CTkLabel(export_window, text="Export Data", font=("Arial", 28, "bold")).pack(pady=20)
+        ctk.CTkLabel(export_window, text=self.t("export_title"), font=("Arial", 28, "bold")).pack(pady=20)
 
-        ctk.CTkLabel(export_window, text="Format:", font=("Arial", 16)).pack(pady=10)
+        ctk.CTkLabel(export_window, text=self.t("format"), font=("Arial", 16)).pack(pady=10)
         format_var = ctk.StringVar(value="JSON")
         format_frame = ctk.CTkFrame(export_window)
         format_frame.pack(pady=5)
@@ -366,22 +589,29 @@ class Minesweeper:
             rb = ctk.CTkRadioButton(format_frame, text=fmt, variable=format_var, value=fmt)
             rb.pack(side="left", padx=8)
 
-        ctk.CTkLabel(export_window, text="Type:", font=("Arial", 16)).pack(pady=10)
-        type_var = ctk.StringVar(value="Standard")
+        ctk.CTkLabel(export_window, text=self.t("type"), font=("Arial", 16)).pack(pady=10)
+        type_var = ctk.StringVar(value=self.t("standard"))
         type_frame = ctk.CTkFrame(export_window)
         type_frame.pack(pady=5)
-        for t in ["Standard", "Detailed", "Summary"]:
+        for t in [self.t("standard"), self.t("detailed"), self.t("summary")]:
             rb = ctk.CTkRadioButton(type_frame, text=t, variable=type_var, value=t)
             rb.pack(side="left", padx=8)
 
-        preview_btn = ctk.CTkButton(export_window, text="Preview", width=200, height=40,
+        def get_export_type(val):
+            if val == self.t("standard"):
+                return "Standard"
+            elif val == self.t("detailed"):
+                return "Detailed"
+            return "Summary"
+
+        preview_btn = ctk.CTkButton(export_window, text=self.t("preview"), width=200, height=40,
                                     font=("Arial", 16),
-                                    command=lambda: self.preview_export(format_var.get(), type_var.get()))
+                                    command=lambda: self.preview_export(format_var.get(), get_export_type(type_var.get())))
         preview_btn.pack(pady=20)
 
-        download_btn = ctk.CTkButton(export_window, text="Download", width=200, height=40,
+        download_btn = ctk.CTkButton(export_window, text=self.t("download"), width=200, height=40,
                                      font=("Arial", 16), fg_color="green",
-                                     command=lambda: self.download_export(format_var.get(), type_var.get()))
+                                     command=lambda: self.download_export(format_var.get(), get_export_type(type_var.get())))
         download_btn.pack(pady=10)
 
     def preview_export(self, format_type, export_type):
@@ -392,7 +622,7 @@ class Minesweeper:
             preview_text = "CSV preview:\n" + "\n".join([",".join(map(str, row)) for row in data[:5]])
         else:
             preview_text = str(data)[:500]
-        mb.showinfo("Preview", preview_text)
+        mb.showinfo(self.t("preview"), preview_text)
 
     def download_export(self, format_type, export_type):
         data = self.get_export_data(export_type)
@@ -402,7 +632,7 @@ class Minesweeper:
             filename += ".json"
             with open(filename, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
-            mb.showinfo("Download", f"Exported to {filename}")
+            mb.showinfo(self.t("download"), f"Exported to {filename}")
 
         elif format_type == "CSV":
             filename += ".csv"
@@ -413,7 +643,7 @@ class Minesweeper:
                 else:
                     for key, val in data.items():
                         writer.writerow([key, val])
-            mb.showinfo("Download", f"Exported to {filename}")
+            mb.showinfo(self.t("download"), f"Exported to {filename}")
 
         elif format_type == "Excel":
             filename += ".xlsx"
@@ -427,7 +657,7 @@ class Minesweeper:
                 for key, val in data.items():
                     ws.append([key, val])
             wb.save(filename)
-            mb.showinfo("Download", f"Exported to {filename}")
+            mb.showinfo(self.t("download"), f"Exported to {filename}")
 
         elif format_type == "PDF":
             filename += ".pdf"
@@ -445,7 +675,7 @@ class Minesweeper:
                 for key, val in data.items():
                     pdf.cell(200, 8, txt=f"{key}: {val}", ln=1)
             pdf.output(filename)
-            mb.showinfo("Download", f"Exported to {filename}")
+            mb.showinfo(self.t("download"), f"Exported to {filename}")
 
         elif format_type == "HTML":
             filename += ".html"
@@ -481,7 +711,7 @@ th {{ background: #333; }}
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(html_content)
             webbrowser.open(filename)
-            mb.showinfo("Download", f"Exported to {filename} (opened in browser)")
+            mb.showinfo(self.t("download"), f"Exported to {filename} (opened in browser)")
 
     def get_export_data(self, export_type):
         if export_type == "Standard":
